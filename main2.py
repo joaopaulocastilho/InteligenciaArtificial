@@ -90,11 +90,11 @@ Xtest = data[m:,:] #Conjunto de Testes
 grid = np.random.uniform(-1, 1, [nRows, nCols, 7]) #Iniciamamos o grid (rede neural) com valores aleatorios
 
 grid = som(Xtrain, grid)
-
-#print(grid)
-
 ocorrencias = executaTeste(Xtest, grid)
-#print(ocorrencias)
 
 plt.imshow(ocorrencias)
 plt.show()
+
+## A partir de agora vamos calcular a taxa de acerto de cada neuronio
+
+neuroInfo, error, seeds = analysis(ocorrencias)
