@@ -27,7 +27,7 @@ class SOM:
         dim = dataIn.shape[1]
         self.wNodes = np.random.uniform(-1,1,[grid[0], grid[1], dim])
         #self.wNodes = np.random.randn (grid[0], grid[1], dim)    
-        
+
         self.alpha0 = alpha
         if (sigma is None):
             self.sigma0 = max(grid) / 2.0
@@ -38,11 +38,11 @@ class SOM:
         self.grid = grid
         
         
+        
     def train (self, maxIt=100, verbose=True, analysis=False, timeSleep = 0.5):
         nSamples = self.dataIn.shape[0]
-        m = self.wNodes.shape[0]        
-        n = self.wNodes.shape[1]        
-    
+        m = self.wNodes.shape[0]
+        n = self.wNodes.shape[1]
     
         # The time constant needs to be computed just one time, so we so it before the loop starts        
         timeCte = (maxIt/np.log(self.sigma0))        
@@ -61,16 +61,15 @@ class SOM:
                 
             timeInit = time()
 
-            for k in xrange(nSamples):    
-                
+            for k in xrange(nSamples):
+
                 # Getting the winner node
                 matDist = self.distance (self.dataIn[k,:], self.wNodes)
-                posWin = self.getWinNodePos(matDist)                              
-                
-                deltaW  = 0                
-                h = 0    
-                          
-                
+                posWin = self.getWinNodePos(matDist)
+
+                deltaW  = 0
+                h = 0
+
                 for i in xrange(m):
                     for j in xrange(n):      
                         # Computing the distance between two nodes
@@ -84,7 +83,6 @@ class SOM:
                         
                         # Updating the weights
                         deltaW = (alpha*h*(self.dataIn[k,:] - self.wNodes[i,j,:]))
-                        print("O SHAPE DESSE CARALHO EH: ", self.wNodes.shape)
                         self.wNodes[i,j,:] += deltaW
                             
                         if analysis:  
