@@ -1,3 +1,8 @@
+Trabalho desenvolvido pelos alunos:
+   Felibe Chabatura Neto
+   João Paulo Kubaszewski Castilho
+   Leonardo Tironi Fassini
+
 Para executar o script, é necessário ter as dependências das bibliotecas numpy e matplotlib.pyplot instaladas e também o python 3 pronto para executar.
 
 Parâmetros para alterar (nas primeiras linhas do código fonte do arquivo main.py):
@@ -8,5 +13,7 @@ Parâmetros para alterar (nas primeiras linhas do código fonte do arquivo main.
    * sigma0: valor inicial para a área dos vizinhos do neurônio vencedor.
    * percTrain: porcentagem do conjunto de dados que será utilizada para treinar a rede (utilizar valor em decimal: 0.7 -> 70%).
 
-Para rodar o script:
+   OBS: O melhor para nRows é 5x5, 6x6 ou 10x10 para atingir bons resultados.
+
+O script foi desenvolvido em Python 3, para rodá-lo execute:
    python3 main.py
