@@ -1,10 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 ## VALORES DE INICIALIZACAO:
-nRows = 5 #Numero de linhas do grid
-nCols = 5 #Numero de colunas do grid
+DEBUG = 0
+nRows = 6 #Numero de linhas do grid
+nCols = 6 #Numero de colunas do grid
 nIter = 100 #Numero de iteracoes do SOM
-alpha0 = 0.3 #Taxa de aprendizado
+alpha0 =0.3 #Taxa de aprendizado
 sigma0 = max(nRows, nCols) #Area dos vizinhos do nodo vencedor
 percTrain = 0.7 #Quantos % do conjunto de dados vao para o treinamento
 
@@ -35,7 +36,7 @@ def som(Xfull, grid):
     m = grid.shape[1] #Numero de colunas do grid
     dataSize = Xdata.shape[0] #Tamanho do dataset passado por parametro
     for epoch in range(nIter):
-        print('Epoch: ', epoch + 1)
+        print('Executando Epoca: ', epoch + 1)
         #Atualizar os valores da taxa de aprendizado e area dos vizinhos
         alpha = alpha0 * np.exp(-epoch/T)
         sigma = sigma0 * np.exp(-epoch/T)
@@ -72,7 +73,25 @@ def executaTeste(Xfull, grid):
           ocorrencias[winPos[0]][winPos[1]][int(Xfull[k][7] - 1)] += 1
      return ocorrencias
 
-
+def analysis(ocorrencias):
+     neuroInfo = np.zeros((nRows, nCols, 3))
+     error = np.zeros(3)
+     seeds = np.zeros(3)
+     for i in range(nRows):
+          for j in range(nCols):
+               seeds += ocorrencias[i][j]
+               tmp = np.argmax(ocorrencias[i][j])
+               neuroInfo[i][j][0] = tmp #Semente que mais ocorre no neuronio
+               neuroInfo[i][j][1] = np.sum(ocorrencias[i][j]) #Total de sementes
+               neuroInfo[i][j][2] = neuroInfo[i][j][1] - ocorrencias[i][j][tmp] #Total de erros
+               for k in range(3):
+                    if k != tmp and ocorrencias[i][j][k] == ocorrencias[i][j][tmp]: #Em caso de empate
+                         neuroInfo[i][j][2] = neuroInfo[i][j][1] #A quantidade de sementes erradas eh igual o total
+                         neuroInfo[i][j][0] = -1 #Marca a semente predominante como -1
+                         error[tmp] += ocorrencias[i][j][tmp]
+                    if k != tmp:
+                         error[k] += ocorrencias[i][j][k]
+     return neuroInfo, error, seeds
 #Preparar o conjunto de dados
 try:
     fdata = open('seeds_dataset.txt')
@@ -92,9 +111,30 @@ grid = np.random.uniform(-1, 1, [nRows, nCols, 7]) #Iniciamamos o grid (rede neu
 grid = som(Xtrain, grid)
 ocorrencias = executaTeste(Xtest, grid)
 
-plt.imshow(ocorrencias)
-plt.show()
-
 ## A partir de agora vamos calcular a taxa de acerto de cada neuronio
 
 neuroInfo, error, seeds = analysis(ocorrencias)
+
+if DEBUG == 1:
+     print(ocorrencias)
+     print("--------------")
+     print(neuroInfo)
+     print(error, seeds)
+
+print("\n\n")
+print("Taxa de acerto para sementes de tipo 1: {}%".format(round(((seeds[0]-error[0])/seeds[0]) * 100, 2)))
+print("Taxa de acerto para sementes de tipo 2: {}%".format(round(((seeds[1]-error[1])/seeds[1]) * 100, 2)))
+print("Taxa de acerto para sementes de tipo 3: {}%".format(round(((seeds[2]-error[2])/seeds[2]) * 100, 2)))
+
+print("\n\nTaxa de acerto por neuronio:")
+for i in range(nRows):
+     for j in range(nCols):
+          if neuroInfo[i][j][0] == -1:
+               print("Neuronio [{},{}] descartado.".format(i, j))
+          else:
+               tmp = ((neuroInfo[i][j][1] - neuroInfo[i][j][2]) / neuroInfo[i][j][1]) * 100
+               print("Neuronio [{},{}] (tipo {}): {}%".format(i, j, int(neuroInfo[i][j][0] + 1), round(tmp, 2)))
+
+## Plotar grafico
+plt.imshow(ocorrencias)
+plt.show()

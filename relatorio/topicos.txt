@@ -1,0 +1,20 @@
+==> Resumo
+==> Abstract
+
+==> Introdução
+    * Rede neural de aprendizado não supervisionado (quais os métdos
+    existentes, mostrar que um deles é o SOM).
+    * O que é Kohonen
+    * Spoiler do que rolou
+
+==> Metodologia
+    * Falar do dataset
+    * O que são mapas de Kohonen (como aplicamos no dataset das
+    sementes).
+    * Implementação
+
+==> Resultados
+    * Imagens
+    * Testes realizados
+
+==> Conclusão
