@@ -1,0 +1,12 @@
+Para executar o script, é necessário ter as dependências das bibliotecas numpy e matplotlib.pyplot instaladas e também o python 3 pronto para executar.
+
+Parâmetros para alterar (nas primeiras linhas do código fonte do arquivo main.py):
+   * nRows: número de linhas do grid utilizado no mapa de Kohonen;
+   * nCols: número de colunas do grid utilizado no mapa de Kohonen;
+   * nIter: quantidade de épocas que o SOM executará para a entrada (conjunto de treinamento da rede);
+   * alpha0: valor inicial da taxa de aprendizagem;
+   * sigma0: valor inicial para a área dos vizinhos do neurônio vencedor.
+   * percTrain: porcentagem do conjunto de dados que será utilizada para treinar a rede (utilizar valor em decimal: 0.7 -> 70%).
+
+Para rodar o script:
+   python3 main.py
